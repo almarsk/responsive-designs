@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+
+      :root {
+     
+        --box-dim: 40px;
+        --margin: 8px;
+        --round: 10px;
+      }
+      .cont {
+        background-color: aquamarine;
+        height: 70vh;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        position: fixed;
+        top: 63px;
+        bottom: 10vh;
+        left: 150px;
+        right: 10vh;
+      }
+      .box {
+        width: var(--box-dim);
+        height: var(--box-dim);
+        margin: var(--margin);
+        border-radius: var(--round);
+        
+        display:flex;
+        align-items: center; justify-content: center;
+        font-size: 9pt;
+        font-family: 'Courier New', Courier, monospace;
+      }
+      .slide {				
+				margin: 15px;
+				margin-left: 30px;
+				display: flex;
+				margin-bottom: 25px;				
+			}		
+			.settings {
+				position: fixed;
+				top: 100px;
+				left: -30px;									
+				transform: rotate(-90deg);
+			}
+			.label {
+				transform: rotate(90deg);
+				width: 30px;
+				text-align: center;				
+			}      
+
+    </style>
+  </head>
+  <body>
+
+    <div class="settings">
+			<div class="slide">
+				<div class="label">size</div>	
+				<input class="valueChange" type="range" min="20"> 
+			</div>
+			<div class="slide">
+				<div class="label">space</div>	
+				<input class="valueChange" type="range">
+			</div>
+      <div class="slide">
+				<div class="label">round</div>	
+				<input class="valueChange" type="range" max="50" >
+			</div>
+		</div>
+    
+    <script type="text/javascript">
+
+      var boxPix = 30;
+      var marginPerc = 10;
+      var roundnessPerc = 25;
+
+      
+      function renderDots () {       
+        //add container
+        var home = document.getElementsByClassName('home')
+        var container = document.createElement("div")                      
+        container.className = "cont"                        
+        document.body.appendChild(container)
+        container = document.getElementsByClassName("cont")
+
+        //get dimensions
+        var rootStyles = getComputedStyle(document.documentElement);
+        
+        boxDim = (boxPix-((boxPix/100)*marginPerc)) + "px"
+        document.documentElement.style.setProperty('--box-dim', boxDim);      
+        document.documentElement.style.setProperty('--margin',boxPix/100*marginPerc/2 + "px")
+        document.documentElement.style.setProperty('--round', boxPix/100*roundnessPerc + "px")
+   
+        const widthPixels = container[0].offsetWidth;
+        const heightPixels = container[0].offsetHeight;
+        const amountColumns = Math.floor(widthPixels/boxPix)
+        const amountRows = Math.floor(heightPixels/boxPix)
+        
+        const amountBoxes = (amountRows*amountColumns)
+
+       /*  console.log("height: " + heightPixels + "px")
+        console.log("width: " + widthPixels + "px")
+        console.log("rows: " + amountRows) */
+        
+
+        //add boxes
+        for (i = 0; i < amountBoxes; i++) {                           
+          var box = document.createElement("div")
+          
+          /* var text = document.createElement("p")
+          text.innerHTML = i
+          box.appendChild(text) */
+
+          box.className = "box";       
+          
+          //decide color of box
+          var q
+          amountRows%2 === 0 
+          ? q = i + Math.floor(i/amountRows)
+          : q = i
+          q%2 === 0
+          ? (box.style.backgroundColor = "red")
+          : (box.style.backgroundColor = "yellow")
+          
+          container[0].appendChild(box)
+          }
+        }
+
+        renderDots()
+
+        //remove dots
+        function removeDots() {
+        const dots = Array.from(document.querySelectorAll('.cont'))
+          dots.forEach(element => {
+          element.remove()
+          });
+        }  
+
+        //resize management
+        window.addEventListener("resize", function() {
+          removeDots()
+          renderDots()
+        })
+
+        const rangeInput = document.getElementsByClassName("valueChange");
+        rangeInput[0].addEventListener("input", changeSize);
+        rangeInput[1].addEventListener("input", changeSpace);
+        rangeInput[2].addEventListener("input", changeRoundness);
+
+        function changeSize(event) {
+          boxPix = event.target.value
+          removeDots()
+          renderDots()
+        }
+
+        function changeSpace(event) {
+          marginPerc = event.target.value
+          removeDots()
+          renderDots()
+        }
+
+        function changeRoundness(event) {
+          console.log(event.target.value)
+          roundnessPerc = event.target.value
+          removeDots()
+          renderDots()
+        }
+
+
+          
+        ;
+
+          
+          
+        
+          
+                  
+          
+         
+    </script>
+  </body> 
+</html>       
