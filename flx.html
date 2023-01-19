@@ -8,10 +8,13 @@
         --box-dim: 40px;
         --margin: 8px;
         --round: 10px;
+        --hCont: 120px;
+        --wCont: 120px;
       }
       .cont {
         background-color: aquamarine;
-        height: 70vh;
+        height: var(--hCont);
+        width: var(--wCont);
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -48,7 +51,19 @@
 				transform: rotate(90deg);
 				width: 30px;
 				text-align: center;				
-			}      
+			}  
+      
+      .meas {
+        height: 120px;
+        width: 120px;
+        outline: 1px dotted red;
+        position: fixed;
+        top: 63px;
+        left: 150px;
+        resize: both;
+        overflow: auto;
+        z-index: 1;
+      }
 
     </style>
   </head>
@@ -74,6 +89,10 @@
       var boxPix = 30;
       var marginPerc = 10;
       var roundnessPerc = 25;
+      var measure = document.createElement("div")                      
+      measure.className = "meas"                        
+      document.body.appendChild(measure)
+      measure = document.getElementsByClassName("meas")
 
       
       function renderDots () {       
@@ -92,8 +111,8 @@
         document.documentElement.style.setProperty('--margin',boxPix/100*marginPerc/2 + "px")
         document.documentElement.style.setProperty('--round', boxPix/100*roundnessPerc + "px")
    
-        const widthPixels = container[0].offsetWidth;
-        const heightPixels = container[0].offsetHeight;
+        const widthPixels = measure[0].offsetWidth;
+        const heightPixels = measure[0].offsetHeight;
         const amountColumns = Math.floor(widthPixels/boxPix)
         const amountRows = Math.floor(heightPixels/boxPix)
         
@@ -102,6 +121,10 @@
        /*  console.log("height: " + heightPixels + "px")
         console.log("width: " + widthPixels + "px")
         console.log("rows: " + amountRows) */
+
+        document.documentElement.style.setProperty('--hCont', heightPixels + "px")
+        document.documentElement.style.setProperty('--wCont', widthPixels + "px")
+
         
 
         //add boxes
@@ -137,11 +160,12 @@
           });
         }  
 
-        //resize management
-        window.addEventListener("resize", function() {
+/*         //resize management
+        measure[0].addEventListener("resize", function() {
+          console.log("resizing in progress")
           removeDots()
           renderDots()
-        })
+        }) */
 
         const rangeInput = document.getElementsByClassName("valueChange");
         rangeInput[0].addEventListener("input", changeSize);
@@ -166,7 +190,19 @@
           removeDots()
           renderDots()
         }
+        
+        const resize_ob = new ResizeObserver(function(entries) {
+        // since we are observing only a single element, so we access the first element in entries array
+        console.log("resizing in progress")
 
+
+
+        removeDots()
+        renderDots()
+        });
+
+        // start observing for resize
+        resize_ob.observe(document.querySelector(".meas"));
 
           
         ;
