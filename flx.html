@@ -3,13 +3,14 @@
   <head>
     <style>
 
-      :root {
-     
+      :root {    
         --box-dim: 40px;
         --margin: 8px;
         --round: 10px;
         --hCont: 120px;
         --wCont: 120px;
+        --hDest: 120px;
+        --wDest: 120px
       }
       .cont {
         background-color: aquamarine;
@@ -18,6 +19,8 @@
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
+        align-content: center;
+        justify-content: center;
         position: fixed;
         top: 63px;
         bottom: 10vh;
@@ -63,7 +66,17 @@
         resize: both;
         overflow: auto;
         z-index: 1;
+        /* background-color: aquamarine; */
       }
+
+      .eq {
+        animation: equalOut 0.25s;
+      }
+
+      @keyframes equalOut {
+        from {height: var(--hCont); width: var(--wCont);}
+        to {height: var(--hDest); width: var(--wDest);}
+        }
 
     </style>
   </head>
@@ -76,7 +89,7 @@
 			</div>
 			<div class="slide">
 				<div class="label">space</div>	
-				<input class="valueChange" type="range">
+				<input class="valueChange" type="range" max="90">
 			</div>
       <div class="slide">
 				<div class="label">round</div>	
@@ -90,9 +103,14 @@
       var marginPerc = 10;
       var roundnessPerc = 25;
       var measure = document.createElement("div")                      
-      measure.className = "meas"                        
+      measure.className = "meas"
+      
       document.body.appendChild(measure)
       measure = document.getElementsByClassName("meas")
+      let amountColumns = 0
+      let amountRows = 0
+      let widthPixels = 0
+      let heightPixels = 0
 
       
       function renderDots () {       
@@ -111,10 +129,10 @@
         document.documentElement.style.setProperty('--margin',boxPix/100*marginPerc/2 + "px")
         document.documentElement.style.setProperty('--round', boxPix/100*roundnessPerc + "px")
    
-        const widthPixels = measure[0].offsetWidth;
-        const heightPixels = measure[0].offsetHeight;
-        const amountColumns = Math.floor(widthPixels/boxPix)
-        const amountRows = Math.floor(heightPixels/boxPix)
+        widthPixels = measure[0].offsetWidth;
+        heightPixels = measure[0].offsetHeight;
+        amountColumns = Math.floor(widthPixels/boxPix)
+        amountRows = Math.floor(heightPixels/boxPix)
         
         const amountBoxes = (amountRows*amountColumns)
 
@@ -175,7 +193,11 @@
         function changeSize(event) {
           boxPix = event.target.value
           removeDots()
+          
           renderDots()
+          /* setTimeout(()=>{
+            reviseSize()}, 250) */
+          
         }
 
         function changeSpace(event) {
@@ -191,29 +213,63 @@
           renderDots()
         }
         
-        const resize_ob = new ResizeObserver(function(entries) {
+        const resize_ob = new ResizeObserver(function() {
         // since we are observing only a single element, so we access the first element in entries array
-        console.log("resizing in progress")
-
-
-
-        removeDots()
-        renderDots()
+        
+        widthPixels = measure[0].offsetWidth;
+        heightPixels = measure[0].offsetHeight;
+        
+        if ((widthPixels!=amountColumns || heightPixels!=amountRows)){              
+            removeDots()
+            renderDots()
+          } else {}        
         });
 
         // start observing for resize
         resize_ob.observe(document.querySelector(".meas"));
 
-          
-        ;
+        measure[0].addEventListener("mouseup", function(){
+          reviseSize()
+        })
+
+        function reviseSize () {
+          heightPixels= measure[0].offsetHeight + "px"
+          widthPixels = measure[0]. offsetWidth + "px"
+          amountColumns = Math.floor(parseInt(widthPixels)/boxPix)
+          amountRows = Math.floor(parseInt(heightPixels)/boxPix)
+          document.documentElement.style.setProperty("--hCont", heightPixels)
+          document.documentElement.style.setProperty("--wCont", widthPixels)
+
+          let destH = heightPixels
+          let destW = widthPixels
+
+          const overFlowH = (parseInt(heightPixels)/boxPix)%amountRows
+          const overFlowW = (parseInt(widthPixels)/boxPix)%amountRows
+
+          if (overFlowH) {
+            destH = amountRows*boxPix + "px"
+          }
+
+          if (overFlowW) {
+            destW = amountColumns*boxPix + "px"
+          }
+ 
+          document.documentElement.style.setProperty("--hDest", destH)
+          document.documentElement.style.setProperty("--wDest", destW)
+          measure[0].classList.add("eq");
+          setTimeout(() => {
+            measure[0].classList.remove('eq')
+            measure[0].style.setProperty("height", destH)
+            measure[0].style.setProperty("width", destW)           
+          }, 250)
+        }
 
           
+
+
+    
           
-        
-          
-                  
-          
-         
+                         
     </script>
   </body> 
 </html>       
