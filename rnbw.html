@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+            }
+            :root {
+                --col: rgb(255,0,0)
+            }
+            .rnb {
+                width: 300px;
+                height: 300px;
+                margin: 100px 100px;
+                background-color: var(--col);
+            }
+            .cont {
+                display: flex;
+                flex-wrap: wrap;
+                width: 300px;
+                height: 300px;
+                border: 1px solid green;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="rnb">
+
+        </div>
+
+        <script type="text/javascript">
+            /* for (i=0; i<36; i++) {
+                var rnb = document.createElement('div')
+                rnb.className = 'rnb' + " w" + i%6 + " h" + (i-(i%6))/6
+                var cont = document.getElementsByClassName('cont')
+                cont[0].appendChild(rnb)
+       
+            } */
+
+
+            var rnb = document.querySelectorAll('.rnb')
+            rnb.forEach((element) => {
+                element.addEventListener('mousemove', function(event) { 
+                var rect = element.getBoundingClientRect();
+                 
+                var x = event.clientX  - rect.left;
+                var y = event.clientY  - rect.top;
+
+                var section = Math.floor(x/(rect.height/6))
+                var sectionFraction = x/(rect.height/6)-Math.floor(x/(rect.height/6))
+
+                var horPos = Math.floor((255/100)*(x/(rect.width/6/100)))
+                var horPosRev = (Math.floor((255/100)*(x/(rect.width/6/100)))-255)*(-1)
+                
+                switch (section) {
+                    case 0: 
+                        var r = 255
+                        var g = horPos
+                        var b = 0
+                        break;
+                    case 1:
+                        var r = horPosRev
+                        var g = 255
+                        var b = 0
+                        break;
+                    case 2:
+                        var r = 0
+                        var g = 255
+                        var b = horPos
+                        break;
+                    case 3:
+                        var r = 0
+                        var g = horPosRev
+                        var b = 255
+                        break;
+                    case 4:
+                        var r = horPos
+                        var g = 0
+                        var b = 255
+                        break; 
+                    case 5:
+                        var r = 255
+                        var g = 0
+                        var b = horPosRev
+                        break;    
+                }
+
+                var rgb = "rgb(" + r + "," + g + "," + b + ")"
+                console.log(rgb + " " + section)
+                console.log((Math.floor((255/100)*(x/(rect.width/6/100))))-255*(-1))
+                
+                document.documentElement.style.setProperty('--col', rgb);  
+
+            }); 
+            })
+
+            // transitions between sections not smooth
+            // horPosRev is broken
+
+        </script>
+    </body>
+</html>
