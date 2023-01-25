@@ -83,7 +83,7 @@
   <body>
 
     <div class="settings">
-			<div class="slide">
+			<div id="resize" class="slide">
 				<div class="label">size</div>	
 				<input class="valueChange" type="range" min="20"> 
 			</div>
@@ -232,26 +232,37 @@
           reviseSize()
         })
 
+        const resize = document.getElementById("resize")
+        resize.addEventListener("mouseup", function(){
+          reviseSize()
+        })
+
         function reviseSize () {
           heightPixels= measure[0].offsetHeight + "px"
-          widthPixels = measure[0]. offsetWidth + "px"
+          widthPixels = measure[0].offsetWidth + "px"
           amountColumns = Math.floor(parseInt(widthPixels)/boxPix)
           amountRows = Math.floor(parseInt(heightPixels)/boxPix)
           document.documentElement.style.setProperty("--hCont", heightPixels)
           document.documentElement.style.setProperty("--wCont", widthPixels)
 
-          let destH = heightPixels
-          let destW = widthPixels
+          let destH = heightPixels + "px"
+          let destW = widthPixels + "px"
 
           const overFlowH = (parseInt(heightPixels)/boxPix)%amountRows
-          const overFlowW = (parseInt(widthPixels)/boxPix)%amountRows
+          const overFlowW = (parseInt(widthPixels)/boxPix)%amountColumns
+          
 
-          if (overFlowH) {
+
+          if (overFlowH && overFlowH < 0.5) {
             destH = amountRows*boxPix + "px"
+          } else if (overFlowH && overFlowH >= 0.5) {
+            destH = ((1+amountRows)*boxPix) + "px"
           }
 
-          if (overFlowW) {
+          if (overFlowW && overFlowW < 0.5) {
             destW = amountColumns*boxPix + "px"
+          } else if (overFlowW && overFlowW >= 0.5) {
+            destW = ((1+amountColumns)*boxPix) + "px"
           }
  
           document.documentElement.style.setProperty("--hDest", destH)
@@ -269,7 +280,8 @@
 
     
           
-                         
+          // todo instruction label resize me, resize up a col/row, resizing slider mouseup event  
+
     </script>
   </body> 
 </html>       
