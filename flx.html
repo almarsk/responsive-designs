@@ -59,7 +59,7 @@
       .meas {
         height: 120px;
         width: 120px;
-        outline: 1px dotted red;
+        outline: 1px solid rgba(127, 255, 212, 0);
         position: fixed;
         top: 63px;
         left: 150px;
@@ -77,6 +77,28 @@
         from {height: var(--hCont); width: var(--wCont);}
         to {height: var(--hDest); width: var(--wDest);}
         }
+
+      #home {
+        position: absolute;
+        bottom: -20px;
+        right: 0px;
+        width: 90px;
+        height: 20px;
+       /*  border: 1px solid green; */
+        z-index: -1;
+        text-align: center;
+        line-height: 20px;
+        
+      }  
+
+      .grand-parent {
+        position: relative;
+        height: var(--hCont);
+        width: var(--wCont);
+        border: 1px solid rgba(251,199,203,0);
+        margin-top: 62px;
+        margin-left: 141px;
+      }
 
     </style>
   </head>
@@ -102,11 +124,21 @@
       var boxPix = 30;
       var marginPerc = 10;
       var roundnessPerc = 25;
+      var grandParent= document.createElement("div")                      
+      grandParent.className = "grand-parent"
+      document.body.appendChild(grandParent)
+
       var measure = document.createElement("div")                      
       measure.className = "meas"
       
-      document.body.appendChild(measure)
+      grandParent.appendChild(measure)
       measure = document.getElementsByClassName("meas")
+
+      var home = document.createElement('div')
+      home.id = "home"
+      home.innerHTML = "resize me &#8599;"
+      grandParent.appendChild(home)
+
       let amountColumns = 0
       let amountRows = 0
       let widthPixels = 0
@@ -115,7 +147,6 @@
       
       function renderDots () {       
         //add container
-        var home = document.getElementsByClassName('home')
         var container = document.createElement("div")                      
         container.className = "cont"                        
         document.body.appendChild(container)
@@ -251,17 +282,18 @@
           const overFlowH = (parseInt(heightPixels)/boxPix)%amountRows
           const overFlowW = (parseInt(widthPixels)/boxPix)%amountColumns
           
+          console.log(overFlowH + " " + overFlowW)
 
-
-          if (overFlowH && overFlowH < 0.5) {
+          const adjustRatio = 0.7
+          if (overFlowH && overFlowH < adjustRatio) {
             destH = amountRows*boxPix + "px"
-          } else if (overFlowH && overFlowH >= 0.5) {
+          } else if (overFlowH && overFlowH >= adjustRatio) {
             destH = ((1+amountRows)*boxPix) + "px"
           }
 
-          if (overFlowW && overFlowW < 0.5) {
+          if (overFlowW && overFlowW < adjustRatio) {
             destW = amountColumns*boxPix + "px"
-          } else if (overFlowW && overFlowW >= 0.5) {
+          } else if (overFlowW && overFlowW >= adjustRatio) {
             destW = ((1+amountColumns)*boxPix) + "px"
           }
  
@@ -280,7 +312,7 @@
 
     
           
-          // todo instruction label resize me, resize up a col/row, resizing slider mouseup event  
+          // todo overflow 0 způsobuje blikání
 
     </script>
   </body> 
