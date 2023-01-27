@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+            :root {
+                --currH: 100px;
+                --stH: 100px;
+                --currW: 100px;
+                --stW: 100px;
+            }
+            .lel{
+                width: var(--stW);
+                height: var(--stH);
+                background-color: aqua;
+                resize: both;
+                overflow: auto;
+                line-height: var(--stH);
+                text-align: center;
+
+            }
+
+            .jedem{
+                animation: myAn 0.5s;
+            }
+
+            @keyframes myAn {
+                from {height: var(--currH); width: var(--currW)}
+                to {height: var(--stH); width: var(--stW);}
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="lel">
+        lel
+        </div>
+
+        <script type="text/javascript">
+
+            const lel = document.getElementsByClassName("lel")
+
+            lel[0].addEventListener("mouseup", function(){
+                console.log("jedem")
+                const currH = lel[0].offsetHeight + "px"
+                const currW = lel[0].offsetWidth + "px"
+                document.documentElement.style.setProperty("--currH", currH);
+                document.documentElement.style.setProperty("--currW", currW);
+                setTimeout(() => {                    
+                    lel[0].classList.remove("jedem");
+                    lel[0].style.height = "100px";
+                    lel[0].style.width = "100px"
+                }, 500);
+                lel[0].classList.add("jedem");
+                console.log("hotovo")
+            })
+
+ /*            const resize_ob = new ResizeObserver(function() {
+        
+                console.log(lel[0].offsetHeight)
+               
+            });
+
+            // start observing for resize
+            resize_ob.observe(document.querySelector(".lel")); */
+
+        /*     function mouseUp() {
+                console.log("jedem")
+                const currH = lel[0].offsetHeight + "px"
+                const currW = lel[0].offsetWidth + "px"
+                document.documentElement.style.setProperty("--currH", currH);
+                document.documentElement.style.setProperty("--currW", currW);
+                setTimeout(() => {                    
+                    lel[0].classList.remove("jedem");
+                    lel[0].style.height = "100px";
+                    lel[0].style.width = "100px"
+                }, 500);
+                lel[0].classList.add("jedem");
+                console.log("hotovo")
+                } */
+        </script>
+
+
+    </body>
+</html>
