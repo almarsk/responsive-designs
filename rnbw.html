@@ -6,13 +6,15 @@
                 margin: 0;
             }
             :root {
-                --col: rgb(255,0,0)
+                --col: rgb(255,0,0);
+                --oldCol: rgb(255,0,0);
             }
             .rnb {
                 width: 1200px;
                 height: 300px;
                 display: inline-block;
                 background-color: var(--col);
+                animation: gradual 0.5s;
             }
 
             .edge {
@@ -25,6 +27,11 @@
             .home {
                 margin: 100px;
                 display: flex;
+            }
+
+            @keyframes gradual {
+                from {background-color: var(--oldCol)}
+                to { background-color: var(--col);}
             }
 
         </style>
@@ -46,13 +53,15 @@
 
 
             var rnb = document.querySelectorAll('.rnb')
-            
+            var oldX
             rnb.forEach((element) => {
                 element.addEventListener('mousemove', function(event) { 
                 var rect = element.getBoundingClientRect();
                  
                 var x = event.clientX  - rect.left;
                 var y = event.clientY  - rect.top;
+                
+
 
                 sectionH = Math.floor(x/(rect.width/6))
                 var sectionFractionH = x/(rect.width/6)-Math.floor(x/(rect.width/6))
@@ -93,19 +102,25 @@
                         b = horPosRev
                         break;    
                 }
-
-                rgb = "rgb(" + r + "," + g + "," + b + ")"
                 
-                document.documentElement.style.setProperty('--col', rgb);  
+                //pokud se oldX od nového X hodně liší, je třeba udělat tu animaci pomalu
+                if ((Math.abs(oldX-x)>20)) { console.log("daleko")}
+                /* console.log( "x: " + x + " oldX: " + oldX)
+                console.log(Math.abs(oldX-x)) */
 
+                oldX = x
+                document.documentElement.style.setProperty('--oldCol', rgb);  
+                
+                
+                rgb = "rgb(" + r + "," + g + "," + b + ")"
+                document.documentElement.style.setProperty('--col', rgb);  
+                
             }); 
             })
 
             var edge = document.querySelectorAll('.edge')
             edge.forEach((element) => {
                 element.addEventListener('mousemove', function(event) {
-                    console.log(sectionH == 0 || sectionH == 5)
-                    console.log(sectionH)
                     if (sectionH == 0 || sectionH == 5) {
                     rgb = "rgb(" + 255 + "," + 0 + "," + 0 + ")"
                     document.documentElement.style.setProperty('--col', rgb);                    
