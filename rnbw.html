@@ -8,13 +8,14 @@
             :root {
                 --col: rgb(255,0,0);
                 --oldCol: rgb(255,0,0);
+                --gradual: gradual 0.5s;
             }
             .rnb {
                 width: 1200px;
-                height: 300px;
+                height: 150px;
                 display: inline-block;
                 background-color: var(--col);
-                animation: gradual 0.5s;
+                
             }
 
             .edge {
@@ -34,6 +35,9 @@
                 to { background-color: var(--col);}
             }
 
+            .jedem {
+                animation: var(--gradual); 
+            }
         </style>
     </head>
     <body>
@@ -61,8 +65,6 @@
                 var x = event.clientX  - rect.left;
                 var y = event.clientY  - rect.top;
                 
-
-
                 sectionH = Math.floor(x/(rect.width/6))
                 var sectionFractionH = x/(rect.width/6)-Math.floor(x/(rect.width/6))
 
@@ -104,7 +106,19 @@
                 }
                 
                 //pokud se oldX od nového X hodně liší, je třeba udělat tu animaci pomalu
-                if ((Math.abs(oldX-x)>20)) { console.log("daleko")}
+                if ((Math.abs(oldX-x)>20)) { 
+                    //console.log("daleko")
+                     
+                    rnb.forEach((element) => {
+                        
+                        element.classList.add('jedem')
+                        setTimeout(()=>{
+                            //distanceX = 
+                            //document.documentElement.style.setProperty('--gradual', "gradual " + distanceX + "s");
+                            element.classList.remove('jedem')
+                        }, 250)
+            
+                })}
                 /* console.log( "x: " + x + " oldX: " + oldX)
                 console.log(Math.abs(oldX-x)) */
 
@@ -116,6 +130,7 @@
                 document.documentElement.style.setProperty('--col', rgb);  
                 
             }); 
+
             })
 
             var edge = document.querySelectorAll('.edge')
