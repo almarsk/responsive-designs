@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+            :root {
+                --col: rgb(255,0,0);
+      
+            }
+
+            body {
+                margin: 0;
+            }
+
+            #rnb {
+                width: 100%;
+                height: 100vh;
+                background-color: var(--col);
+            }
+
+            #rnb-text {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+                word-wrap: break-word;
+            }
+
+        </style>
+    </head>
+    
+    <body>
+        <div id="rnb">
+            <p id="rnb-text"></p>
+        </div>
+       
+
+        <script type="text/javascript">
+            
+            var rnb = document.getElementById('rnb')
+            var rnbText = document.getElementById('rnb-text')
+            var text = ""
+
+            rnb.addEventListener('pointermove', e => {
+                
+                text = text + "e"
+                rnbText.textContent = text
+                
+            })
+
+
+        </script>
+
+    </body>
