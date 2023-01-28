@@ -13,16 +13,19 @@
             }
 
             #rnb {
-                width: 100%;
-                height: 100vh;
+                width: 400px;
+                height: 400px;
                 background-color: var(--col);
             }
 
-            #rnb-text {
+             #rnb-text {
                 margin: 0;
                 width: 100%;
+                height: 100%;
                 text-align: center;
-                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+                font-size: 20px;
             }
 
         </style>
@@ -41,7 +44,7 @@
             var text = ""
 
             rnb.addEventListener('pointermove', e => {
-                
+
                 text = text + "e"
                 rnbText.textContent = text
                 
