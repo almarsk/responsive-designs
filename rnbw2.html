@@ -12,6 +12,7 @@
 
             body {
                 margin: 0;
+                touch-action: none;
             }
 
             #rnb {
@@ -49,6 +50,7 @@
             document.documentElement.style.setProperty('--oldCol', randomRGB);
             
             rnb.addEventListener('pointermove', e => {
+                e.preventDefault();
                 
                 if (!isPaused){
                     isPaused = true
