@@ -4,8 +4,9 @@
         <style>
 
             :root {
-                --col: rgba(255,0,0,0.2);
-                --oldCol: rgba(255,0,0,0.2);
+                --col: rgba(255,0,0,0.4);
+                --oldCol: rgba(255,0,0,0.4);
+                --destCol: rgba(255,0,0,0.4)
       
             }
 
@@ -16,17 +17,18 @@
             #rnb {
                 width: 100%;
                 height: 100vh;
-                background: var(--col);
+                background: var(--destCol);
             }
 
             @keyframes gradual{
                 from {background-color: var(--oldCol)}
                 to {background-color: var(--col);}
             }
+
+            .jedem{
+                animation: gradual 500ms;
+            }
                
-            
-
-
 
         </style>
     </head>
@@ -42,22 +44,30 @@
             var rnb = document.getElementById('rnb')
             var isPaused = false
             var randArr = [] 
+            var randomRGB = "rgba(255,0,0,0.4)"
+            document.documentElement.style.setProperty('--oldCol', randomRGB);
             
             rnb.addEventListener('pointermove', e => {
                 
                 if (!isPaused){
                     isPaused = true
+                                                       
+                    for (i=0; i<3; i++) {randArr[i] = Math.floor(Math.random()*255)}                      
+                    document.documentElement.style.setProperty('--oldCol', randomRGB);                     
+                    randomRGB = "rgba(" + randArr[0] + "," + randArr[1] + "," + randArr[2] + "," + "0.4)"
+                    document.documentElement.style.setProperty('--col', randomRGB);
+
+                    rnb.classList.add('jedem')
+                    
                     setTimeout(()=>{
-                       
-                        for (i=0; i<3; i++) {randArr[i] = Math.floor(Math.random()*255)}
-                        document.documentElement.style.setProperty('--oldCol', randomRGB);
-                        var randomRGB = "rgba(" + randArr[0] + "," + randArr[1] + "," + randArr[2] + "," + "0.4)"
-                        document.documentElement.style.setProperty('--col', randomRGB);
-                        
+                         
+                        document.documentElement.style.setProperty('--destCol', randomRGB);
+                        rnb.classList.remove('jedem')                                             
                         isPaused = false
-                        console.log(randomRGB)
-                    }, 1000)
-                  
+                        
+                                              
+                    }, 500)
+                    
                 }
                                                                   
              

@@ -8,26 +8,44 @@
                 --stH: 100px;
                 --currW: 100px;
                 --stW: 100px;
+                --col:rgb(0,255,255);
+                --oldCol: rgb(0,128,0);
+                --destCol: rgb(0,255,255);
             }
             .lel{
                 width: var(--stW);
                 height: var(--stH);
-                background-color: aqua;
+                background-color: var(--destCol);
                 resize: both;
                 overflow: auto;
                 line-height: var(--stH);
                 text-align: center;
-
+                -webkit-user-select: none; /* Chrome all / Safari all */
+                -moz-user-select: none; /* Firefox all */
+                -ms-user-select: none; /* IE 10+ */
+                user-select: none;
+                cursor: default;
             }
 
-            .jedem{
+            .jedem {
                 animation: myAn 0.5s;
+            }
+
+            .gradual {
+                animation: gradual 0.5s;
             }
 
             @keyframes myAn {
                 from {height: var(--currH); width: var(--currW)}
                 to {height: var(--stH); width: var(--stW);}
             }
+
+            @keyframes gradual {
+                from {background-color: var(--oldCol);}
+                to {background-color: var(--col);}
+            }
+
+
         </style>
     </head>
     <body>
@@ -39,9 +57,12 @@
         <script type="text/javascript">
 
             const lel = document.getElementsByClassName("lel")
+            
 
             lel[0].addEventListener("mouseup", function(){
-                console.log("jedem")
+
+                
+                
                 const currH = lel[0].offsetHeight + "px"
                 const currW = lel[0].offsetWidth + "px"
                 document.documentElement.style.setProperty("--currH", currH);
@@ -52,32 +73,36 @@
                     lel[0].style.width = "100px"
                 }, 500);
                 lel[0].classList.add("jedem");
-                console.log("hotovo")
+                
             })
 
- /*            const resize_ob = new ResizeObserver(function() {
-        
-                console.log(lel[0].offsetHeight)
-               
-            });
+            var isPaused = false
 
-            // start observing for resize
-            resize_ob.observe(document.querySelector(".lel")); */
+            lel[0].addEventListener("mousedown", function(){
+                if (isPaused) {
+                    console.log('teď ne')
+                }
+                if (!isPaused){
+                    isPaused = true
+                    var color = getComputedStyle(document.documentElement).getPropertyValue('--col');
+                    document.documentElement.style.setProperty("--oldCol", color)
+                 
+                    
+                    color == 'rgb(0,255,255)' ? color = 'rgb(0,128,0)' : color = 'rgb(0,255,255)'
+                 
+                    document.documentElement.style.setProperty("--col", color)
+                    lel[0].classList.add("gradual");
 
-        /*     function mouseUp() {
-                console.log("jedem")
-                const currH = lel[0].offsetHeight + "px"
-                const currW = lel[0].offsetWidth + "px"
-                document.documentElement.style.setProperty("--currH", currH);
-                document.documentElement.style.setProperty("--currW", currW);
-                setTimeout(() => {                    
-                    lel[0].classList.remove("jedem");
-                    lel[0].style.height = "100px";
-                    lel[0].style.width = "100px"
-                }, 500);
-                lel[0].classList.add("jedem");
-                console.log("hotovo")
-                } */
+                    setTimeout(()=> {
+                        lel[0].classList.remove("gradual");                   
+                        document.documentElement.style.setProperty("--destCol", color)
+                        isPaused = false
+                    }, 500)
+
+                    
+                }
+
+            })
         </script>
 
 
