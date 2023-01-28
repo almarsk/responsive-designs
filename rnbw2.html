@@ -4,7 +4,8 @@
         <style>
 
             :root {
-                --col: rgb(255,0,0);
+                --col: rgba(255,0,0,0.2);
+                --oldCol: rgba(255,0,0,0.2);
       
             }
 
@@ -15,37 +16,53 @@
             #rnb {
                 width: 100%;
                 height: 100vh;
-                background-color: var(--col);
+                background: var(--col);
             }
 
-            #rnb-text {
-                margin: 0;
-                width: 100%;
-                text-align: center;
-                word-wrap: break-word;
+            @keyframes gradual{
+                from {background-color: var(--oldCol)}
+                to {background-color: var(--col);}
             }
+               
+            
+
+
 
         </style>
     </head>
     
     <body>
         <div id="rnb">
-            <p id="rnb-text"></p>
+ 
         </div>
        
 
         <script type="text/javascript">
             
             var rnb = document.getElementById('rnb')
-            var rnbText = document.getElementById('rnb-text')
-            var text = ""
-
+            var isPaused = false
+            var randArr = [] 
+            
             rnb.addEventListener('pointermove', e => {
                 
-                text = text + "e"
-                rnbText.textContent = text
-                
-            })
+                if (!isPaused){
+                    isPaused = true
+                    setTimeout(()=>{
+                       
+                        for (i=0; i<3; i++) {randArr[i] = Math.floor(Math.random()*255)}
+                        document.documentElement.style.setProperty('--oldCol', randomRGB);
+                        var randomRGB = "rgba(" + randArr[0] + "," + randArr[1] + "," + randArr[2] + "," + "0.4)"
+                        document.documentElement.style.setProperty('--col', randomRGB);
+                        
+                        isPaused = false
+                        console.log(randomRGB)
+                    }, 1000)
+                  
+                }
+                                                                  
+             
+   
+                })
 
 
         </script>
