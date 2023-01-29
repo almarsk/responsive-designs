@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
-        <style>
+           <style>
             :root{
                 --bg-color: rgba(255,0,0,0.4);
             }
@@ -15,7 +14,17 @@
                 height: 100vh;
                 background-color: var(--bg-color);
                 transition: background-color 500ms ease-in-out;
-            }             
+                display: flex;
+                flex-wrap: wrap;
+                align-content: center;
+                justify-content: center;
+            }   
+            .control{
+                width: 100px;
+                height: 100px;
+                border-bottom: 1px solid black;
+                border-left: 1px solid black;
+            }          
         </style>
     </head>
     <body>
@@ -23,22 +32,42 @@
         </div>
         <script type="text/javascript">
             var rnb = document.getElementById('rnb')
-            var rnb = document.getElementById('rnb')
             var isPaused = false
             var randomArray = [] 
             var randomRGB = "rgba(255,0,0,0.4)"
+            var oldX
+            var newX
+
+            //adding control web
+            var rect = rnb.getBoundingClientRect()            
+            var controlNet = Math.floor(rect.width/100) * Math.floor(rect.height/100)
+            for (i=0;i<controlNet;i++){
+                var controlBox = document.createElement('div')
+                controlBox.className = 'control'
+                rnb.appendChild(controlBox)
+            }
+   
+            
             rnb.addEventListener('touchmove', e => handleMovement(e))
             rnb.addEventListener('mousemove', e => handleMovement(e))
 
             function handleMovement (e) {
-                e.preventDefault();            
+                e.preventDefault();  
+                                  
                 if (!isPaused){
-                    isPaused = true                                                      
+                    console.log(oldX-e.clientX)
+                    oldX = e.clientX
+                    isPaused = true
                     for (i=0; i<3; i++) {randomArray[i] = Math.floor(Math.random()*255)}                                          
                     randomRGB = "rgba(" + randomArray[0] + "," + randomArray[1] + "," + randomArray[2] + "," + "0.4)"
-                    document.documentElement.style.setProperty('--bg-color', randomRGB);                                     
-                    setTimeout(()=>{isPaused = false},500)                   
-                    } 
+                    document.documentElement.style.setProperty('--bg-color', randomRGB);  
+
+                    setTimeout(()=>{
+                        isPaused = false
+                                                
+                    },500)                   
+                } 
+                
             }
                   
                 
