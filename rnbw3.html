@@ -36,11 +36,13 @@
             var randomArray = [] 
             var randomRGB = "rgba(255,0,0,0.4)"
             var oldX
-            var newX
+            var r
+            var g
+            var b
 
             //adding control web
-            var rect = rnb.getBoundingClientRect()            
-            var controlNet = Math.floor(rect.width/100) * Math.floor(rect.height/100)
+            var controlRect = rnb.getBoundingClientRect()            
+            var controlNet = Math.floor(controlRect.width/100) * Math.floor(controlRect.height/100)
             for (i=0;i<controlNet;i++){
                 var controlBox = document.createElement('div')
                 controlBox.className = 'control'
@@ -53,24 +55,40 @@
 
             function handleMovement (e) {
                 e.preventDefault();  
-                                  
+                
+                //var rectRnb = rnb.getBoundingClientRect()
+                //var sectionW = Math.floor(newX/(rectRnb.width/6))     
+                //console.log(Math.floor(newX/(rectRnb.width/255)))
+                    
                 if (!isPaused){
-                    console.log(oldX-e.clientX)
-                    oldX = e.clientX
                     isPaused = true
-                    for (i=0; i<3; i++) {randomArray[i] = Math.floor(Math.random()*255)}                                          
-                    randomRGB = "rgba(" + randomArray[0] + "," + randomArray[1] + "," + randomArray[2] + "," + "0.4)"
-                    document.documentElement.style.setProperty('--bg-color', randomRGB);  
+                    if (oldX == undefined) {
+                        oldX = e.clientX
+                    }
+
+                distanceX = e.clientX - oldX
+                oldX = e.clientX
+                console.log(distanceX)
+
 
                     setTimeout(()=>{
                         isPaused = false
-                                                
-                    },500)                   
+                        newX = e.clientX
+  
+                    },500)
+                    for (i=0; i<3; i++) {randomArray[i] = Math.floor(Math.random()*255)}                                          
+                    randomRGB = "rgba(" + randomArray[0] + "," + randomArray[1] + "," + randomArray[2] + "," + "0.4)"
+                    document.documentElement.style.setProperty('--bg-color', randomRGB);
+
+                       
                 } 
                 
             }
                   
-                
+                //todo capturing coordinates changes
+                //problem - immideately captured movement is short
+                //todo change hue based on captured coordinates changes
+                //turn everything gradient
         </script>
     </body>
 </html>
