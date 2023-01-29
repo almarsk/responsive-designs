@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+        <style>
+            :root{
+                --bg-color: rgba(255,0,0,0.4);
+            }
+            body{
+                margin: 0;
+                overflow: hidden;
+            }
+            #rnb{
+                width: 100%;
+                height: 100vh;
+                background-color: var(--bg-color);
+                transition: background-color 500ms ease-in-out;
+            }             
+        </style>
+    </head>
+    <body>
+        <div id="rnb" class="animated bg-color">
+        </div>
+        <script type="text/javascript">
+            var rnb = document.getElementById('rnb')
+            var rnb = document.getElementById('rnb')
+            var isPaused = false
+            var randomArray = [] 
+            var randomRGB = "rgba(255,0,0,0.4)"
+            rnb.addEventListener('pointermove', e => {
+                e.preventDefault();            
+                if (!isPaused){
+                    isPaused = true                                                      
+                    for (i=0; i<3; i++) {randomArray[i] = Math.floor(Math.random()*255)}                                          
+                    randomRGB = "rgba(" + randomArray[0] + "," + randomArray[1] + "," + randomArray[2] + "," + "0.4)"
+                    document.documentElement.style.setProperty('--bg-color', randomRGB);                                     
+                    setTimeout(()=>{isPaused = false},500)                   
+                    }   
+                })
+        </script>
+    </body>
+</html>

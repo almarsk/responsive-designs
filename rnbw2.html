@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      />
         <style>
 
             :root {
                 --col: rgba(255,0,0,0.4);
-                --oldCol: rgba(255,0,0,0.4);
-              
-      
+                --oldCol: rgba(255,0,0,0.4);      
             }
 
             body {
                 margin: 0;
                 touch-action: none;
-  
+                background-color: var(--col)
             }
 
             #rnb {
@@ -37,7 +39,7 @@
     </head>
     
     <body>
-        <div id="rnb">
+        <div id="rnb" class="animated">
  
  
         </div>
@@ -64,12 +66,13 @@
                     document.documentElement.style.setProperty('--col', randomRGB);
 
                     rnb.classList.add('jedem')
+                    document.body.classList.add('jedem')
         
                     
                     setTimeout(()=>{
                         
                         rnb.classList.remove('jedem')
-                                               
+                        document.body.classList.remove('jedem')                       
                         isPaused = false
                         
                     }, 500)
