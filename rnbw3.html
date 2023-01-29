@@ -27,7 +27,10 @@
             var isPaused = false
             var randomArray = [] 
             var randomRGB = "rgba(255,0,0,0.4)"
-            rnb.addEventListener('touchmove', e => {
+            rnb.addEventListener('touchmove', e => handleMovement(e))
+            rnb.addEventListener('mousemove', e => handleMovement(e))
+
+            function handleMovement (e) {
                 e.preventDefault();            
                 if (!isPaused){
                     isPaused = true                                                      
@@ -35,8 +38,10 @@
                     randomRGB = "rgba(" + randomArray[0] + "," + randomArray[1] + "," + randomArray[2] + "," + "0.4)"
                     document.documentElement.style.setProperty('--bg-color', randomRGB);                                     
                     setTimeout(()=>{isPaused = false},500)                   
-                    }   
-                })
+                    } 
+            }
+                  
+                
         </script>
     </body>
 </html>
