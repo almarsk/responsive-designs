@@ -32,7 +32,7 @@
 
         <script type="text/javascript">
 
-            var backgroundImage = 'linear-gradient(rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4))'
+            var backgroundImage = 'radial-gradient(rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4))'
             var rnb = document.querySelectorAll('.rnb')
             var valueChange = document.querySelectorAll('.valueChange')
             repaint()
@@ -46,18 +46,26 @@
 
             valueChange.forEach((item, index)=>{
                 item.addEventListener("input", e=>{
-                    calculateColor(e.target.value, index)
+                    const regex = /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0\.\d{1,2}|1)\s*\)/g;
+                    const rgbas = backgroundImage.match(regex);
+                    
+                    index == 0 
+                    ? backgroundImage = "linear-gradient("+calculateColor(e.target.value)+","+rgbas[1]+","+calculateColor(e.target.value+50)+","+rgbas[3]+","+calculateColor(e.target.value+100)+","+rgbas[5]+",0.4)"
+                    : backgroundImage = "linear-gradient("+rgbas[0]+","+calculateColor(e.target.value)+","+rgbas[2]+","+calculateColor(e.target.value+50)+","+rgbas[4]+","+calculateColor(e.target.value+100)+",0.4)"
+                    console.log(backgroundImage)
+                    console.log(e.target.value)
                     repaint()
                 })              
             })
 
-            function calculateColor(value, index){
-                var r, g, b, rgba
-                console.log(value)
-                var section = Math.floor(value/(1530/6))
-                var withinSection = Math.floor(255*(value/(1530/6)-Math.floor(value/(1530/6))))
-                console.log(section)
-                console.log(withinSection)
+            function calculateColor(value){
+                var r, g, b
+                 console.log("value"+value) 
+                if (value<0){value=value+(value*(-1))}
+                var section = Math.floor((value%1530)/(1530/6))
+                var withinSection = Math.floor(255*((value%1530)/(1530/6)-Math.floor((value%1530)/((1530/6)))))
+                /* console.log("section "+section)
+                console.log("withinSection "+withinSection) */
                 switch (section) {
                     case 0: 
                         r = 255
@@ -90,10 +98,7 @@
                         b = 255-withinSection
                         break;    
                 }
-                rgba = 'rgba('+r+','+g+','+b+',0.5)' 
-                index == 0 
-                ? backgroundImage = 'linear-gradient('+rgba+', rgba(0,0,255,0.4), '+rgba+', rgba(0,0,255,0.4), '+rgba+', rgba(0,0,255,0.4))'
-                : backgroundImage = 'linear-gradient(rgba(255,0,0,0.4), '+rgba+', rgba(255,0,0,0.4), '+rgba+', rgba(255,0,0,0.4), '+rgba+')'
+                return 'rgba('+r+','+g+','+b+',0.5)' 
             }
             
             
