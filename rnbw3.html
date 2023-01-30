@@ -40,14 +40,14 @@
             var g
             var b
 
-            //adding control web
+/*             //adding control web
             var controlRect = rnb.getBoundingClientRect()            
             var controlNet = Math.floor(controlRect.width/100) * Math.floor(controlRect.height/100)
             for (i=0;i<controlNet;i++){
                 var controlBox = document.createElement('div')
                 controlBox.className = 'control'
                 rnb.appendChild(controlBox)
-            }
+            } */
    
             
             rnb.addEventListener('touchmove', e => handleMovement(e))
@@ -85,10 +85,15 @@
                 
             }
                   
-                //todo capturing coordinates changes
-                //problem - immideately captured movement is short
-                //todo change hue based on captured coordinates changes
-                //turn everything gradient
+                //  todo capturing coordinates changes
+                //  touch should be driven by touchmove end
+                //  mouse should have coordinates mapped on rgbs
+
+                //  problem - immideately captured movement is short - solution viz výše
+
+                //  todo change hue based on captured coordinates changes
+                //  turn everything gradient
+
         </script>
     </body>
 </html>
