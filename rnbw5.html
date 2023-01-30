@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .rnb {
+                width: 300px;
+                height: 300px; 
+          
+            }
+            #settings{
+                margin: 50px;
+                
+            }
+            .valueChange{
+                width: 500px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="settings">
+            <div id="x">
+                <label>x</label>
+                <input value="0" class="valueChange" type="range" min="0" max="1530">
+            </div>
+            <div id="y">
+                <label>y</label>
+                <input value="0" class="valueChange" type="range" min="0" max="1530">
+            </div>           
+        </div>    
+        <div class="rnb"></div>
+
+        <script type="text/javascript">
+
+            var backgroundImage = 'linear-gradient(rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4))'
+            var rnb = document.querySelectorAll('.rnb')
+            var valueChange = document.querySelectorAll('.valueChange')
+            repaint()
+          
+            function repaint(){
+                rnb.forEach(item=>{
+                item.style.backgroundImage = backgroundImage
+                //console.log('funguju')
+            })
+            }
+
+            valueChange.forEach((item, index)=>{
+                item.addEventListener("input", e=>{
+                    calculateColor(e.target.value, index)
+                    repaint()
+                })              
+            })
+
+            function calculateColor(value, index){
+                var r, g, b, rgba
+                console.log(value)
+                var section = Math.floor(value/(1530/6))
+                var withinSection = Math.floor(255*(value/(1530/6)-Math.floor(value/(1530/6))))
+                console.log(section)
+                console.log(withinSection)
+                switch (section) {
+                    case 0: 
+                        r = 255
+                        g = withinSection
+                        b = 0
+                        break;
+                    case 1:
+                        r = 255-withinSection
+                        g = 255
+                        b = 0
+                        break;
+                    case 2:
+                        r = 0
+                        g = 255
+                        b = withinSection
+                        break;
+                    case 3:
+                        r = 0
+                        g = 255-withinSection
+                        b = 255
+                        break;
+                    case 4:
+                        r = withinSection
+                        g = 0
+                        b = 255
+                        break; 
+                    case 5:
+                        r = 255
+                        g = 0
+                        b = 255-withinSection
+                        break;    
+                }
+                rgba = 'rgba('+r+','+g+','+b+',0.5)' 
+                index == 0 
+                ? backgroundImage = 'linear-gradient('+rgba+', rgba(0,0,255,0.4), '+rgba+', rgba(0,0,255,0.4), '+rgba+', rgba(0,0,255,0.4))'
+                : backgroundImage = 'linear-gradient(rgba(255,0,0,0.4), '+rgba+', rgba(255,0,0,0.4), '+rgba+', rgba(255,0,0,0.4), '+rgba+')'
+            }
+            
+            
+            
+            
+            
+
+
+
+
+
+        </script>
+    </body>
+</html>
