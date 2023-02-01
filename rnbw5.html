@@ -4,7 +4,9 @@
         <style>
             .rnb {
                 width: 100%;
-                height: 100vh;        
+                height: 100vh;
+                transition: opacity 1s;
+                opacity: 0;        
             }
             #settings{
                 margin: 50px;               
@@ -57,18 +59,29 @@
                 })              
             }) */
 
-            rnb.forEach((item, index)=>{
-                item.addEventListener("pointermove", e=>{
-                    var x,y,rect
-                    rect = item.getBoundingClientRect()
-                    x = e.clientX - rect.left
-                    y = e.clientY - rect.top
-                    valueX = (1530*x)/item.getBoundingClientRect().width
-                    valueY = (1530*y)/item.getBoundingClientRect().height
-                    backgroundImage = "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX)+", "+calculateColor(valueY)+")"
-                    console.log(backgroundImage)
-                    repaint()
+            rnb.forEach((item)=>{
+                item.addEventListener("mousemove", e => handleMovement(e))
+                item.addEventListener("touchmove", e => handleMovement(e))
+                item.addEventListener("touchstart", e => {
+                    item.style.opacity = 1
                 })
+                item.addEventListener("mouseenter", e => {
+                    item.style.opacity = 1
+                })
+            
+
+            function handleMovement(e){
+                e.preventDefault();
+                var x,y,rect
+                rect = item.getBoundingClientRect()
+                x = e.clientX - rect.left
+                y = e.clientY - rect.top
+                valueX = (1530*x)/rect.width
+                valueY = (1530*y)/rect.height
+                backgroundImage = "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+100)+", "+calculateColor(valueY+100)+", "+calculateColor(valueX+200)+", "+calculateColor(valueY+200)+")"
+                
+                repaint()
+                }
             })
 
             function calculateColor(value){
