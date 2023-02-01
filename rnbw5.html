@@ -40,6 +40,7 @@
             rnb.forEach((item)=>{
                 item.addEventListener("mousemove", e => handleMouseMovement(e))
                 item.addEventListener("touchmove", e => handleTouchMovement(e))
+                item.addEventListener("touchend", e => {item.innerHTML="end"})
             
             function handleMouseMovement(e){
                 var x,y,rect                
