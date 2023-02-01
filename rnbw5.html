@@ -3,13 +3,15 @@
     <head>
         <style>
             .rnb {
-                width: 300px;
-                height: 300px; 
-          
+                width: 100%;
+                height: 100vh;        
             }
             #settings{
-                margin: 50px;
-                
+                margin: 50px;               
+            }
+            body{
+                margin: 0;
+                overflow: hidden;
             }
             .valueChange{
                 width: 500px;
@@ -18,7 +20,7 @@
 
     </head>
     <body>
-        <div id="settings">
+        <!-- <div id="settings">
             <div id="x">
                 <label>x</label>
                 <input value="0" class="valueChange" type="range" min="0" max="1530">
@@ -27,45 +29,53 @@
                 <label>y</label>
                 <input value="0" class="valueChange" type="range" min="0" max="1530">
             </div>           
-        </div>    
+        </div>   -->  
         <div class="rnb"></div>
 
         <script type="text/javascript">
 
-            var backgroundImage = 'radial-gradient(rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4), rgba(255,0,0,0.4), rgba(0,0,255,0.4))'
+            var backgroundImage = 'radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255), rgb(255,0,0), rgb(0, 0, 255), rgb(255 ,0, 0), rgb(0, 0, 255))'
             var rnb = document.querySelectorAll('.rnb')
             var valueChange = document.querySelectorAll('.valueChange')
             repaint()
           
-            function repaint(){
+            function repaint(){        
                 rnb.forEach(item=>{
-                item.style.backgroundImage = backgroundImage
-                //console.log('funguju')
-            })
+                item.style.backgroundImage = backgroundImage                          
+                })
             }
 
-            valueChange.forEach((item, index)=>{
+/*             valueChange.forEach((item, index)=>{
                 item.addEventListener("input", e=>{
                     const regex = /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0\.\d{1,2}|1)\s*\)/g;
                     const rgbas = backgroundImage.match(regex);
-                    
-                    index == 0 
-                    ? backgroundImage = "linear-gradient("+calculateColor(e.target.value)+","+rgbas[1]+","+calculateColor(e.target.value+50)+","+rgbas[3]+","+calculateColor(e.target.value+100)+","+rgbas[5]+",0.4)"
-                    : backgroundImage = "linear-gradient("+rgbas[0]+","+calculateColor(e.target.value)+","+rgbas[2]+","+calculateColor(e.target.value+50)+","+rgbas[4]+","+calculateColor(e.target.value+100)+",0.4)"
-                    console.log(backgroundImage)
-                    console.log(e.target.value)
+                    const value = parseInt(e.target.value)
+                    index == 0
+                    ? backgroundImage = "radial-gradient("+calculateColor(value)+", "+rgbas[1]+", "+calculateColor(value+50)+", "+rgbas[3]+", "+calculateColor(value+100)+", "+rgbas[5]+")"
+                    : backgroundImage = "radial-gradient("+rgbas[0]+", "+calculateColor(value)+", "+rgbas[2]+", "+calculateColor(value+50)+", "+rgbas[4]+", "+calculateColor(value+100)+")"
                     repaint()
                 })              
+            }) */
+
+            rnb.forEach((item, index)=>{
+                item.addEventListener("pointermove", e=>{
+                    var x,y,rect
+                    rect = item.getBoundingClientRect()
+                    x = e.clientX - rect.left
+                    y = e.clientY - rect.top
+                    valueX = (1530*x)/item.getBoundingClientRect().width
+                    valueY = (1530*y)/item.getBoundingClientRect().height
+                    backgroundImage = "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX)+", "+calculateColor(valueY)+")"
+                    console.log(backgroundImage)
+                    repaint()
+                })
             })
 
             function calculateColor(value){
                 var r, g, b
-                 console.log("value"+value) 
                 if (value<0){value=value+(value*(-1))}
                 var section = Math.floor((value%1530)/(1530/6))
                 var withinSection = Math.floor(255*((value%1530)/(1530/6)-Math.floor((value%1530)/((1530/6)))))
-                /* console.log("section "+section)
-                console.log("withinSection "+withinSection) */
                 switch (section) {
                     case 0: 
                         r = 255
@@ -98,14 +108,15 @@
                         b = 255-withinSection
                         break;    
                 }
-                return 'rgba('+r+','+g+','+b+',0.5)' 
+                //return 'rgba('+r+', '+g+', '+b+', 0.4)' 
+                return 'rgb('+r+', '+g+', '+b+')' 
             }
             
             
             
             
             
-
+            
 
 
 
