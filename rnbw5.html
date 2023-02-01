@@ -19,19 +19,12 @@
                 width: 500px;
             }
         </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
 
     </head>
     <body>
-        <!-- <div id="settings">
-            <div id="x">
-                <label>x</label>
-                <input value="0" class="valueChange" type="range" min="0" max="1530">
-            </div>
-            <div id="y">
-                <label>y</label>
-                <input value="0" class="valueChange" type="range" min="0" max="1530">
-            </div>           
-        </div>   -->  
+ 
         <div class="rnb"></div>
 
         <script type="text/javascript">
@@ -40,24 +33,14 @@
             var rnb = document.querySelectorAll('.rnb')
             var valueChange = document.querySelectorAll('.valueChange')
             repaint()
+
+            var text = "a"
           
             function repaint(){        
                 rnb.forEach(item=>{
                 item.style.backgroundImage = backgroundImage                          
                 })
             }
-
-/*             valueChange.forEach((item, index)=>{
-                item.addEventListener("input", e=>{
-                    const regex = /rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0\.\d{1,2}|1)\s*\)/g;
-                    const rgbas = backgroundImage.match(regex);
-                    const value = parseInt(e.target.value)
-                    index == 0
-                    ? backgroundImage = "radial-gradient("+calculateColor(value)+", "+rgbas[1]+", "+calculateColor(value+50)+", "+rgbas[3]+", "+calculateColor(value+100)+", "+rgbas[5]+")"
-                    : backgroundImage = "radial-gradient("+rgbas[0]+", "+calculateColor(value)+", "+rgbas[2]+", "+calculateColor(value+50)+", "+rgbas[4]+", "+calculateColor(value+100)+")"
-                    repaint()
-                })              
-            }) */
 
             rnb.forEach((item)=>{
                 item.addEventListener("mousemove", e => handleMovement(e))
@@ -69,17 +52,16 @@
                     item.style.opacity = 1
                 })
             
-
             function handleMovement(e){
-                e.preventDefault();
-                var x,y,rect
+                var x,y,rect                
                 rect = item.getBoundingClientRect()
                 x = e.clientX - rect.left
                 y = e.clientY - rect.top
                 valueX = (1530*x)/rect.width
                 valueY = (1530*y)/rect.height
                 backgroundImage = "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+100)+", "+calculateColor(valueY+100)+", "+calculateColor(valueX+200)+", "+calculateColor(valueY+200)+")"
-                
+                text = text+"a"
+                item.innerHTML = text
                 repaint()
                 }
             })
@@ -121,19 +103,10 @@
                         b = 255-withinSection
                         break;    
                 }
-                //return 'rgba('+r+', '+g+', '+b+', 0.4)' 
+ 
                 return 'rgb('+r+', '+g+', '+b+')' 
             }
-            
-            
-            
-            
-            
-            
-
-
-
-
+        
         </script>
     </body>
 </html>
