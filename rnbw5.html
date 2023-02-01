@@ -3,10 +3,10 @@
     <head>
         <style>
             .rnb {
-                width: 100%;
-                height: 100vh;
+                width: 50%;
+                height: 50vh;
                 transition: opacity 1s;
-                opacity: 0;        
+       
             }
             #settings{
                 margin: 50px;               
@@ -14,6 +14,8 @@
             body{
                 margin: 0;
                 overflow: hidden;
+                display: flex;
+                flex-wrap: wrap;
             }
             .valueChange{
                 width: 500px;
@@ -21,36 +23,23 @@
         </style>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-
     </head>
     <body>
  
         <div class="rnb"></div>
+        <div class="rnb"></div>
+        <div class="rnb"></div>
+        <div class="rnb"></div>
 
         <script type="text/javascript">
-
-            var backgroundImage = 'radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255), rgb(255,0,0), rgb(0, 0, 255), rgb(255 ,0, 0), rgb(0, 0, 255))'
-            var rnb = document.querySelectorAll('.rnb')
-            var valueChange = document.querySelectorAll('.valueChange')
-            repaint()
-
-            var text = "a"
-          
-            function repaint(){        
-                rnb.forEach(item=>{
-                item.style.backgroundImage = backgroundImage                          
-                })
-            }
-
+            var rnb = document.querySelectorAll('.rnb')                 
+            rnb.forEach(item=>{
+            item.style.backgroundImage = getColorCode(0,0)                          
+            })
+            
             rnb.forEach((item)=>{
                 item.addEventListener("mousemove", e => handleMovement(e))
                 item.addEventListener("touchmove", e => handleMovement(e))
-                item.addEventListener("touchstart", e => {
-                    item.style.opacity = 1
-                })
-                item.addEventListener("mouseenter", e => {
-                    item.style.opacity = 1
-                })
             
             function handleMovement(e){
                 var x,y,rect                
@@ -58,13 +47,15 @@
                 x = e.clientX - rect.left
                 y = e.clientY - rect.top
                 valueX = (1530*x)/rect.width
-                valueY = (1530*y)/rect.height
-                backgroundImage = "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+100)+", "+calculateColor(valueY+100)+", "+calculateColor(valueX+200)+", "+calculateColor(valueY+200)+")"
-                text = text+"a"
-                item.innerHTML = text
-                repaint()
+                valueY = (1530*y)/rect.height               
+                item.innerHTML = valueX+"<br>"+valueY
+                item.style.backgroundImage = getColorCode(valueX,valueY)
                 }
             })
+
+            function getColorCode (valueX,valueY) {
+                return "radial-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+100)+", "+calculateColor(valueY+100)+", "+calculateColor(valueX+200)+", "+calculateColor(valueY+200)+")"
+            }
 
             function calculateColor(value){
                 var r, g, b
