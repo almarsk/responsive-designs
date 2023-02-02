@@ -49,7 +49,11 @@
                 valueX -= ((1530*e.movementX)/rect.width)
                 valueY -= ((1530*e.movementY)/rect.height)                  
                 item.style.backgroundImage = getColorCode(valueX,valueY)
-                console.log(getColorCode(valueX,valueY))
+                console.log("už")
+
+
+                
+
             }
 
             function handleTouchMovement(e){
@@ -60,8 +64,8 @@
                     diffY -= y
                     x = e.touches[0].clientX - rect.left
                     y = e.touches[0].clientY - rect.top
-                    var valueX = (1530*diffX)/rect.width
-                    var valueY = (1530*diffY)/rect.height
+                    valueX -= ((1530*diffX)/rect.width)
+                    valueY -= ((1530*diffY)/rect.height)
                     item.style.backgroundImage = getColorCode(valueX,valueY)
                 } else {
                     x = e.touches[0].clientX - rect.left
