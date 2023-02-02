@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <style>
         .rnb {
             width: 100%;
@@ -33,7 +34,7 @@
         var rnb = document.querySelectorAll('.rnb')   
         var valueX = 490
         var valueY = 1530 
-        var x,y          
+        var lastTouchX,lastTouchY          
         rnb.forEach(item=>{
         item.style.backgroundImage = getColorCode(valueX,valueY)                          
         })
@@ -41,7 +42,7 @@
         rnb.forEach((item)=>{
             item.addEventListener("mousemove", e => handleMouseMovement(e))
             item.addEventListener("touchmove", e => handleTouchMovement(e))
-            
+            item.addEventListener("touchstart", e=> handleTouchStart(e))
         
             function handleMouseMovement(e){
                 var rect              
@@ -49,34 +50,36 @@
                 valueX -= ((1530*e.movementX)/rect.width)
                 valueY -= ((1530*e.movementY)/rect.height)                  
                 item.style.backgroundImage = getColorCode(valueX,valueY)
-                console.log("už")
+                console.log(getColorCode(valueX,valueY))
+            }
 
-
-                
-
+            function handleTouchStart(e){
+                lastTouchX = event.touches[0].pageX;
+                lastTouchY = event.touches[0].pageY;
             }
 
             function handleTouchMovement(e){
-                var rect, diffX, diffY               
+                var rect 
                 rect = item.getBoundingClientRect()
-                if (x||y){
-                    diffX -= x
-                    diffY -= y
-                    x = e.touches[0].clientX - rect.left
-                    y = e.touches[0].clientY - rect.top
-                    valueX -= ((1530*diffX)/rect.width)
-                    valueY -= ((1530*diffY)/rect.height)
-                    item.style.backgroundImage = getColorCode(valueX,valueY)
-                } else {
-                    x = e.touches[0].clientX - rect.left
-                    y = e.touches[0].clientY - rect.top
-                }
-                                    
+                
+                var touchX = event.touches[0].pageX-rect.left;
+                var touchY = event.touches[0].pageY-rect.top;
+
+                var movementX = touchX - lastTouchX;
+                var movementY = touchY - lastTouchY;
+                //console.log("Touch movement: (" + movementX + ", " + movementY + ")");
+                               
+                lastTouchX = touchX;
+                lastTouchY = touchY;
+            
+                valueX -= ((1530*movementX)/rect.width)
+                valueY -= ((1530*movementY)/rect.height)
+                item.style.backgroundImage = getColorCode(valueX,valueY)                                 
             }
         })
 
         function getColorCode (valueX,valueY) {
-            return "conic-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+(valueX/6))+", "+calculateColor(valueY+(valueY/6))+", "+calculateColor(valueX+(valueX/3))+", "+calculateColor(valueY+(valueY/3))+", "+calculateColor(valueX)+")"
+            return "conic-gradient("+calculateColor(valueX)+", "+calculateColor(valueY)+", "+calculateColor(valueX+(valueX*1))+", "+calculateColor(valueY+(valueY*1))+", "+calculateColor(valueX+(valueX*2))+", "+calculateColor(valueY+(valueY*2))+", "+calculateColor(valueX)+")"
         }
 
         function calculateColor(value){
