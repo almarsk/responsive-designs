@@ -30,9 +30,12 @@
 
 
     <script type="text/javascript">
-        var rnb = document.querySelectorAll('.rnb')                 
+        var rnb = document.querySelectorAll('.rnb')   
+        var valueX = 490
+        var valueY = 1530 
+        var x,y          
         rnb.forEach(item=>{
-        item.style.backgroundImage = getColorCode(0,0)                          
+        item.style.backgroundImage = getColorCode(valueX,valueY)                          
         })
         
         rnb.forEach((item)=>{
@@ -40,28 +43,31 @@
             item.addEventListener("touchmove", e => handleTouchMovement(e))
             
         
-        function handleMouseMovement(e){
-            var x,y,rect                
-            rect = item.getBoundingClientRect()
-            x = e.clientX - rect.left
-            y = e.clientY - rect.top
-            var valueX = (1530*x)/rect.width
-            var valueY = (1530*y)/rect.height 
-            console.log(getColorCode(valueX,valueY))    
-            
-            item.style.backgroundImage = getColorCode(valueX,valueY)
+            function handleMouseMovement(e){
+                var rect              
+                rect = item.getBoundingClientRect()           
+                valueX -= ((1530*e.movementX)/rect.width)
+                valueY -= ((1530*e.movementY)/rect.height)                  
+                item.style.backgroundImage = getColorCode(valueX,valueY)
+                console.log(getColorCode(valueX,valueY))
             }
 
-        function handleTouchMovement(e){
-            var x,y,rect                
-            rect = item.getBoundingClientRect()
-            x = e.touches[0].clientX - rect.left
-            y = e.touches[0].clientY - rect.top
-            var valueX = (1530*x)/rect.width
-            var valueY = (1530*y)/rect.height
-
-            
-            item.style.backgroundImage = getColorCode(valueX,valueY)
+            function handleTouchMovement(e){
+                var rect, diffX, diffY               
+                rect = item.getBoundingClientRect()
+                if (x||y){
+                    diffX -= x
+                    diffY -= y
+                    x = e.touches[0].clientX - rect.left
+                    y = e.touches[0].clientY - rect.top
+                    var valueX = (1530*x)/rect.width
+                    var valueY = (1530*y)/rect.height
+                    item.style.backgroundImage = getColorCode(valueX,valueY)
+                } else {
+                    x = e.touches[0].clientX - rect.left
+                    y = e.touches[0].clientY - rect.top
+                }
+                                    
             }
         })
 
@@ -106,8 +112,8 @@
                     b = 255-withinSection
                     break;    
             }
-
-            return 'rgb('+r+', '+g+', '+b+')' 
+            
+            return 'rgba('+r+', '+g+', '+b+',0.7)' 
         }
     
     </script>
