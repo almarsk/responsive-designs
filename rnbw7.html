@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            .rnb {
+                width: 100%;
+                height: 100vh;  
+                display: flex; 
+                justify-content: center;
+                align-items: center;
+
+            }
+            body {
+                margin: 0;
+            }
+
+            .button {
+                width: 20px;
+                height: 20px;
+                background-color: rgba(255,0,0,0);
+                z-index: 1;
+                border-radius: 50%;
+
+            }
+        </style>
+    </head>
+    <body>
+        <div class="rnb">
+            <div class="button" onclick="invert()"></div>
+        </div>
+        <script type="text/javascript">
+            const rnb = document.querySelector('.rnb')
+            let hueX = 0
+            let hueY = 100
+
+            let amountOfRays = 14
+            rnb.style.backgroundImage=getGradient()
+            rnb.addEventListener('mousemove', e => handleMouseMove(e))  
+
+            function handleMouseMove (e) {
+                const rect = rnb.getBoundingClientRect()
+                hueX = (hueX+(e.movementX/(rect.width/360)))%360
+                hueY = (hueY+(e.movementY/(rect.height/360)))%360
+                rnb.style.backgroundImage = getGradient()
+                console.log(getGradient())                
+            }
+
+            function handleTouchMove (e) {
+                const rect = rnb.getBoundingClientRect()
+            }
+
+            function getGradient () {
+                let hsl = ""
+                let hue
+                for (let i=0;i<=amountOfRays;i++){
+                    i%2==0 ? hue = hueX : hue = hueY                   
+                    hsl = hsl + 'hsl('+(Math.floor((hue+(i*100))%360))+',100%,50%)' 
+                    if (i!=amountOfRays){
+                        hsl = hsl + ','
+                    } else {
+                        hsl = hsl + ',hsl('+(Math.floor(hue%360))+',100%,50%)'
+                    }
+                }
+                return 'conic-gradient('+hsl+')'
+            }
+            
+
+            //todo button for inversion
+            //touch
+
+
+
+        </script>
+
+    </body>
+</html>
