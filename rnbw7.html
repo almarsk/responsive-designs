@@ -33,17 +33,20 @@
             const rnb = document.querySelector('.rnb')
             let hueX = 0
             let hueY = 100
-
-            let amountOfRays = 14
+            let isInvert = false
+            let amountOfRays = 5
             rnb.style.backgroundImage=getGradient()
-            rnb.addEventListener('mousemove', e => handleMouseMove(e))  
+            rnb.addEventListener('mousemove', e => handleMouseMove(e)) 
+            rnb.addEventListener('touchmove', e => handleTouchMove(e))  
 
             function handleMouseMove (e) {
                 const rect = rnb.getBoundingClientRect()
                 hueX = (hueX+(e.movementX/(rect.width/360)))%360
                 hueY = (hueY+(e.movementY/(rect.height/360)))%360
                 rnb.style.backgroundImage = getGradient()
-                console.log(getGradient())                
+       
+
+              
             }
 
             function handleTouchMove (e) {
@@ -54,15 +57,31 @@
                 let hsl = ""
                 let hue
                 for (let i=0;i<=amountOfRays;i++){
+                    
                     i%2==0 ? hue = hueX : hue = hueY                   
                     hsl = hsl + 'hsl('+(Math.floor((hue+(i*100))%360))+',100%,50%)' 
                     if (i!=amountOfRays){
                         hsl = hsl + ','
                     } else {
-                        hsl = hsl + ',hsl('+(Math.floor(hue%360))+',100%,50%)'
+                        /* console.log(amountOfRays%2)
+                        amountOfRays%2==0 */
+                        hsl = hsl + ',hsl('+(Math.floor(hueX%360))+',100%,50%)'
+      
                     }
                 }
                 return 'conic-gradient('+hsl+')'
+            }
+
+            function invert () {
+                isInvert
+                ?   isInvert = false
+                :   isInvert = true
+                if (rnb.style.filter){
+                    rnb.style.filter = ''
+                } else {
+                    rnb.style.filter = 'hue-rotate(.5turn)'
+                }
+                rnb.style.backgroundImage = getGradient()
             }
             
 
