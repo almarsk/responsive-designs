@@ -11,7 +11,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
+
         }
 
         .dot{
@@ -23,15 +23,12 @@
         }
 
         .valueChange{
-            position: absolute;
             width: 50vw;
-            left: 25vw;
-            top: 10vh
         }
 
         .container{
             position: relative;
-            top: 25vh;
+ 
         }
         
 
@@ -40,14 +37,15 @@
 </head>
 <body>
 
-    <div>
-        <input class="valueChange" type="range" max="35" min="5"> 
-    </div>
+    
     <div class="container"></div>
+    <input class="valueChange" type="range" max="35" min="5"> 
+    <h1>drag me</h1>
+    
    
    <script>
-        const container = document.querySelector(".container")
         const slide = document.querySelector(".valueChange")
+        const container = document.querySelector(".container")
 
         let amount = 20
         let numberOfDots = amount;
@@ -60,7 +58,7 @@
         })
         
         const dotDimension = 10
-        const radiusX = 100
+        const radiusX = document.body.clientWidth/4
         const radiusY = radiusX
         
         container.style.width = 2*radiusX+dotDimension + "px"
@@ -92,7 +90,7 @@
                 */
 
                 let t = i / (numberOfDots - 1) * Math.PI;
-                const x = Math.sin(-t) * (radiusX /* - radiusY * Math.sin(t) */) + radiusX;
+                const x = Math.sin(-t) * (radiusX /* - radiusY * Math.sin(t) */) + 1.8*radiusX;
                 const y = Math.cos(t) * (radiusY /* - radiusY * Math.sin(t) */) + radiusY;
 
                 dot.style.left = y + "px";
