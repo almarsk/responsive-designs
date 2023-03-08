@@ -41,7 +41,7 @@
 <body>
 
     <div>
-        <input class="valueChange" type="range" min="5"> 
+        <input class="valueChange" type="range" max="35" min="5"> 
     </div>
     <div class="container"></div>
    
@@ -49,8 +49,8 @@
         const container = document.querySelector(".container")
         const slide = document.querySelector(".valueChange")
 
-        let amount = 40
-        let numberOfDots = 5;
+        let amount = 20
+        let numberOfDots = amount;
         slide.defaultValue = amount
         slide.addEventListener("input", (e)=>{
             amount = e.target.value
@@ -60,7 +60,7 @@
         })
         
         const dotDimension = 10
-        const radiusX = 300
+        const radiusX = 100
         const radiusY = radiusX
         
         container.style.width = 2*radiusX+dotDimension + "px"
