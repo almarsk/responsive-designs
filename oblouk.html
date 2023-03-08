@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oblouk</title>
+    <style>
+        body{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .dot{
+            width: 20px;
+            height: 20px;
+            border-radius: 50px;
+            background-color: red;
+            position: absolute;
+        }
+
+        .valueChange{
+            position: absolute;
+            width: 10vw;
+            left: 45vw;
+            top: 10vh
+        }
+
+        .container{
+            border: 1px solid red;
+            position: relative;
+            top: 25vh;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+
+    <div>
+        <input class="valueChange" type="range" min="5"> 
+    </div>
+    <div class="container"></div>
+   
+   <script>
+        const container = document.querySelector(".container")
+        const slide = document.querySelector(".valueChange")
+
+        let amount = 40
+        let numberOfDots = 5;
+        slide.defaultValue = amount
+        slide.addEventListener("input", (e)=>{
+            amount = e.target.value
+            numberOfDots = e.target.value
+            clear()
+            render()
+        })
+        
+        const dotDimension = 10
+        const radiusX = 300
+        const radiusY = radiusX
+        
+        container.style.width = 2*radiusX+dotDimension + "px"
+        container.style.height = 2*radiusY+dotDimension + "px"
+
+        render()
+        
+        function render(){
+             
+            const lineLength = radiusX*2-dotDimension
+            const dotSpacing = lineLength / (numberOfDots - 1);
+
+            for (let i = 0; i < numberOfDots; i++) {
+                const dot = document.createElement("div");
+                dot.classList.add("dot");
+                dot.style.width = dotDimension + "px"
+                dot.style.height = dotDimension + "px"
+
+
+                /*
+                let t = i/amount*1*Math.PI
+                const x = Math.sin(t) * radiusX + radiusX
+                const y = Math.cos(t) * radiusY + radiusY;
+                */
+
+                /*
+                const x = (i / (numberOfDots - 1)) * lineLength;
+                const y = Math.sin(-( x /  lineLength * Math.PI)) * radiusY + radiusY;
+                */
+
+                let t = i / (numberOfDots - 1) * Math.PI;
+                const x = Math.sin(-t) * (radiusX /* - radiusY * Math.sin(t) */) + radiusX;
+                const y = Math.cos(t) * (radiusY /* - radiusY * Math.sin(t) */) + radiusY;
+
+                dot.style.left = y + "px";
+                dot.style.top = x + "px"
+                container.appendChild(dot);
+            }
+        }
+
+        function clear(){
+            while (container.firstChild) {
+            container.removeChild(container.firstChild);
+            }
+        }
+
+        
+        
+    </script>
+    
+</body>
+</html>
