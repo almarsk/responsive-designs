@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text edit</title>
+    <style>
+        body{
+            background-color: olive;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+
+        .edit{
+            margin-top: 50px;
+            border: none;
+            width: 75vw;
+            height: 75vh;
+            background-color: inherit;
+            outline: none;
+            font-size: 36px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: rgb(41, 52, 22);
+            resize:none;
+            caret-color: rgb(41, 52, 22);
+            display: block;
+        }
+
+        .edit::selection{
+            background-color: rgba(219, 219, 15, 0.638);
+
+        }
+
+                /* width */
+        ::-webkit-scrollbar {
+        width: 15px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: olive; 
+        }
+    
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: rgb(70, 70, 0); 
+        border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: rgb(91, 91, 2); 
+        }
+
+        .edit::placeholder{
+            color: rgba(155, 155, 27, 0.643);
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <textarea class="edit" type="text" placeholder="text here"></textarea>
+        <input class="exprt" type="button" onclick="exp()">
+    </div>
+
+
+
+    <script type="text/javascript">
+        const edit = document.querySelector(".edit")
+        function exp(){
+           
+            var textData = edit.value
+            var blob = new Blob([textData], { type: "text/plain" })
+            var url = URL.createObjectURL(blob)
+            var downloadLink = document.createElement("a")
+            downloadLink.href = url
+            downloadLink.download = "txt.txt"
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+            URL.revokeObjectURL(url)
+        }
+
+    </script>
+</body>
+</html>
