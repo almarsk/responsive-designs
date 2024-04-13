@@ -7,7 +7,7 @@ HTML & CSS fun
 [another background and event attempt](https://almarsk.github.io/responsive-designs/rnbw2.html) - rnbw2.html\
 [yet antoher one](https://almarsk.github.io/responsive-designs/rnbw3.html) - rnbw3.html\
 [the 90s](https://almarsk.github.io/responsive-designs/rnbw5.html) - rnbw5.html\
-[rays (can you find the all red coordinates?](https://almarsk.github.io/responsive-designs/rnbw6.html) - rnbw6.html\
+[rays (can you find the all red coordinates?)](https://almarsk.github.io/responsive-designs/rnbw6.html) - rnbw6.html\
 [rays with full color](https://almarsk.github.io/responsive-designs/rnbw7.html) - rnbw7.html\
 [textarea with download button](https://almarsk.github.io/responsive-designs/text_edit.html) - text_edit.html
 
